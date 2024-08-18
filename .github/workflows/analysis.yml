@@ -1,0 +1,45 @@
+name: Static Analysis
+
+on:
+  workflow_call:
+
+permissions:
+  pull-requests: write
+  contents: read
+  checks: write
+
+jobs:
+  static_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Set execute permissions
+        run: |
+          chmod +x bin/brakeman
+          chmod +x bin/rubocop
+          chmod +x bin/importmap
+
+      - name: Run RuboCop
+        run: bundle exec rubocop
+
+      - name: Scan for common Rails security vulnerabilities
+        run: bundle exec brakeman --no-pager
+
+      - name: Scan for security vulnerabilities in JavaScript dependencies
+        run: bundle exec bin/importmap audit
+
+      - name: Lint code for consistent style
+        run: bundle exec rubocop -f github

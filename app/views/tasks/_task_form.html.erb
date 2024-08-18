@@ -1,0 +1,53 @@
+<div class="modal fade" id="<%= modal_id %>" tabindex="-1" aria-labelledby="<%= modal_label_id %>" data-controller="modal-reset task-form" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-start">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header-<%= new_record ? 'green' : 'blue' %> text-white">
+        <h5 class="modal-title fs-4 fw-bold" id="<%= modal_label_id %>"><%= title %></h5>
+      </div>
+      <div class="modal-body p-4">
+        <%= form_with(model: task, local: true, class: 'needs-validation', novalidate: true, id: form_id) do |form| %>
+          <div class="mb-4">
+            <%= form.label :title, t('form.title'), class: 'form-label fw-bold' %>
+            <%= form.text_field :title, class: 'form-control form-control-lg', data: { task_form_target: "title" } %>
+            <div class="invalid-feedback" data-task-form-target="titleError"><%= t('form.title_required') %></div>
+          </div>
+
+          <div class="mb-4">
+            <%= form.label :description, t('form.description'), class: 'form-label fw-bold' %>
+            <%= form.text_area :description, class: 'form-control', rows: 4, value: task.description %>
+          </div>
+
+          <div class="mb-4">
+            <%= form.label :due_date, t('form.due_date'), class: 'form-label fw-bold' %>
+            <div class="d-flex gap-3">
+              <%= form.select :due_date_year, (Date.today.year..(Date.today.year + 5)).to_a, { prompt: t('form.year'), selected: task.due_date&.year }, class: 'form-select', data: { task_form_target: "dueDateYear" } %>
+              <%= form.select :due_date_month, (1..12).to_a, { prompt: t('form.month'), selected: task.due_date&.month }, class: 'form-select', data: { task_form_target: "dueDateMonth" } %>
+              <%= form.select :due_date_day, (1..31).to_a, { prompt: t('form.day'), selected: task.due_date&.day}, class: 'form-select', data: { task_form_target: "dueDateDay" } %>
+            </div>
+            <div class="invalid-feedback" data-task-form-target="dueDateError"><%= t('form.due_date_required') %></div>
+          </div>
+
+          <div class="mb-4">
+            <%= form.label :due_time, t('form.due_time'), class: 'form-label fw-bold' %>
+            <%= form.select :due_time, (0..23).flat_map { |hour| ["%02d:00" % hour, "%02d:15" % hour, "%02d:30" % hour, "%02d:45" % hour] }, { prompt: t('form.time'), selected: task.due_date&.strftime('%H:%M') }, class: 'form-select', data: { task_form_target: "dueTime" } %>
+            <div class="invalid-feedback" data-task-form-target="dueTimeError"><%= t('form.due_time_required') %></div>
+          </div>
+
+          <div class="alert alert-warning d-none" data-task-form-target="pastDateWarning">
+            <%= t('form.past_date_warning') %>
+          </div>
+
+          <div class="mb-4 form-check form-switch">
+            <%= form.check_box :completed, class: 'form-check-input', role: 'switch', checked: task.completed %>
+            <%= form.label :completed, t('form.statuses.completed'), class: 'form-check-label' %>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <%= form.submit submit_text, class: "btn btn-outline-#{new_record ? 'success' : 'primary'} btn-lg px-4", data: { task_form_target: "addTaskButton" } %>
+            <%= link_to t('form.back'), '#', class: 'btn btn-outline-secondary btn-lg px-4', data: { bs_dismiss: 'modal' } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

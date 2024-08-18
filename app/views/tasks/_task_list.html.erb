@@ -1,0 +1,23 @@
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive" data-task-target="tableContainer" style="<%= 'display: none;' unless has_tasks %>">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+        <tr>
+          <th></th>
+          <th><label><input type="checkbox" data-task-target="selectAll" data-action="change->task#toggleAllCheckboxes"></label></th>
+          <th><%= t('index.columns.title') %></th>
+          <th><%= t('index.columns.description') %></th>
+          <th><%= t('index.columns.status') %></th>
+          <th><%= t('index.columns.due') %></th>
+          <th><%= t('index.columns.actions') %></th>
+        </tr>
+        </thead>
+        <tbody id="task-list" data-controller="sortable" data-task-target="taskList">
+        <%= render partial: 'task_row', collection: tasks, as: :task %>
+        </tbody>
+      </table>
+    </div>
+    <p class="text-center my-3" data-task-target="noTasksMessage" style="<%= 'display: none;' if has_tasks %>"><%= t('index.no_tasks') %></p>
+  </div>
+</div>

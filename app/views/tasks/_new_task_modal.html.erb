@@ -1,0 +1,7 @@
+<%= render 'task_form', task: Task.new,
+           new_record: true,
+           modal_id: 'newTaskModal',
+           modal_label_id: 'newTaskModalLabel',
+           title: t('index.add_task'),
+           form_id: 'taskForm',
+           submit_text: t('form.add') %>

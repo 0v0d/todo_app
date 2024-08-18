@@ -1,0 +1,79 @@
+name: Auto Label PR
+
+on:
+  pull_request:
+    branches: ["master", "dev"]
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  repository-projects: write
+  contents: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: Add a label for all production dependencies
+        if: steps.metadata.outputs.dependency-type == 'direct:production'
+        run: |
+          if ! gh pr view "$PR_URL" --json labels -q '.labels[].name' | grep -q "automerge"; then
+            gh pr edit "$PR_URL" --add-label "automerge"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{github.event.pull_request.html_url}}
+
+  handle-pull-request:
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    steps:
+      - name: Add autoMerge Label
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const labelToAdd = "automerge";
+            
+            // ラベルの存在確認
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: labelToAdd
+              });
+            } catch (error) {
+              if (error.status === 404) {
+                // ラベルが存在しない場合、作成する
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelToAdd,
+                  color: "0E8A16"
+                });
+              } else {
+                throw error;
+              }
+            }
+            
+            const { data: currentLabels } = await github.rest.issues.listLabelsOnIssue({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number
+            });
+            
+            if (!currentLabels.some(label => label.name === labelToAdd)) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                labels: [labelToAdd]
+              });
+            }

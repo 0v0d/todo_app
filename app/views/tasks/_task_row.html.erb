@@ -1,0 +1,36 @@
+<tr data-task-id="<%= task.id %>">
+  <td class="sortable-handle">
+    <i class="bi bi-list sortable-icon"></i>
+  </td>
+  <td><label>
+    <input type="checkbox" class="task-checkbox" value="<%= task.id %>" data-task-target="checkbox" data-action="change->task#toggleDeleteBox">
+  </label></td>
+  <td><%= task.title %></td>
+  <td><%= task.description.present? ? truncate(task.description, length: 30) : t('index.none') %></td>
+  <td>
+    <span class="badge <%= task.completed ? 'bg-success' : 'bg-warning' %>">
+      <%= task.completed ? t('index.statuses.completed') : t('index.statuses.pending') %>
+    </span>
+  </td>
+  <td>
+    <div class="d-flex flex-column">
+      <small class="text-muted">
+        <%= t('index.created') %>: <%= time_ago_in_words(task.created_at) %><%= t('index.ago') %>
+      </small>
+      <% if task.due_date %>
+        <small class="<%= due_date_class(task) %>">
+          <%= t('index.due') %>: <%= format_due_date(task) %>
+          (<%= due_date_distance(task) %>)
+        </small>
+      <% else %>
+        <small class="text-muted"><%= t('index.no_due_date') %></small>
+      <% end %>
+    </div>
+  </td>
+  <td>
+    <div class="d-flex flex-wrap gap-2">
+      <%= link_to t('index.actions.show'), task, class: 'btn btn-outline-lightblue' %>
+      <%= link_to t('index.actions.edit'), '#', data: { bs_toggle: 'modal', bs_target: "#editTaskModal#{task.id}" }, class: 'btn btn-outline-primary' %>
+    </div>
+  </td>
+</tr>

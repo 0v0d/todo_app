@@ -1,0 +1,18 @@
+<div class="container mt-4" data-controller="task">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0"><%= t('index.title') %></h1>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-danger" data-action="task#deleteSelectedTasks" data-confirm-message="<%= t('index.actions.confirm_delete') %>" data-no-items-message="<%= t('index.actions.no_items_message') %>" data-task-target="deleteSelectedBox" style="display: none;">
+        <%= t('index.actions.delete') %>
+      </button>
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newTaskModal">
+        <%= t('index.add_task') %>
+      </button>
+    </div>
+  </div>
+
+  <%= render 'task_list', tasks: @tasks, has_tasks: @has_tasks %>
+
+  <%= render 'new_task_modal' %>
+  <%= render 'edit_task_modals', tasks: @tasks %>
+</div>

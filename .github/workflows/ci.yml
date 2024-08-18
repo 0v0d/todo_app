@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  pull_request:
+    branches: ["master", "developer"]
+    types: [opened, synchronize]
+
+permissions:
+  checks: write
+  contents: write
+  pull-requests: write
+
+jobs:
+  StaticAnalysis:
+    uses: ./.github/workflows/analysis.yml
+
+  AutoMerge:
+    needs: StaticAnalysis
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    if: success()
+    steps:
+      - name: Auto Merge
+        uses: pascalgn/automerge-action@v0.16.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_LABELS: "automerge,!work in progress"
+          MERGE_METHOD: "squash"
+          MERGE_COMMIT_MESSAGE: "pull-request-title"
+          MERGE_DELETE_BRANCH: "true"
+          MERGE_RETRIES: "6"
+          MERGE_RETRY_SLEEP: "10000"

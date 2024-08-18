@@ -1,0 +1,56 @@
+<div class="container-fluid py-5 bg-light">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <div class="card shadow border-0 rounded-3 overflow-hidden">
+        <div class="card-header bg-gradient text-white p-4" style="background-color: #17a2b8;">
+          <h1 class="mb-0 fs-3 fw-bold text-break"><%= @task.title %></h1>
+        </div>
+        <div class="card-body p-4">
+          <div class="row g-4">
+            <div class="col-12">
+              <h5 class="text-muted mb-2"><%= t('show.description') %></h5>
+              <p class="mb-0 fs-5">
+                <%= @task.description.present? ? @task.description : t('show.none') %>
+              </p>
+            </div>
+            <div class="col-12">
+              <h5 class="text-muted mb-2"><%= t('show.status') %></h5>
+              <span class="badge fs-6 <%= @task.completed ? 'bg-success' : 'bg-warning' %> rounded-pill px-3 py-2">
+                <%= @task.completed ? t('show.statuses.completed') : t('show.statuses.pending') %>
+              </span>
+            </div>
+            <div class="col-12">
+              <h5 class="text-muted mb-2"><%= t('show.due_date') %></h5>
+              <p class="mb-0 fs-5">
+                <%= @task.due_date.present? ? @task.due_date.strftime('%Y-%m-%d %H:%M') : t('show.none') %>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-white p-4 border-top">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div class="d-flex flex-wrap gap-2">
+              <%= link_to t('show.edit'), '#', class: 'btn btn-outline-primary btn-lg', data: { bs_toggle: 'modal', bs_target: "#editTaskModal#{@task.id}" } %>
+              <%= link_to t('index.actions.delete'), task_path(@task),
+                          data: {
+                            turbo_method: :delete,
+                            turbo_confirm: t('index.actions.confirm_delete')
+                          },
+                          class: 'btn btn-outline-danger btn-lg' %>
+            </div>
+            <%= link_to t('show.back'), tasks_path, class: 'btn btn-outline-secondary btn-lg' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EditTaskModal -->
+<%= render 'task_form', task: @task,
+           new_record: false,
+           modal_id: "editTaskModal#{@task.id}",
+           modal_label_id: "editTaskModalLabel#{@task.id}",
+           title: t('edit_task.edit'),
+           form_id: "editTaskForm#{@task.id}",
+           submit_text: t('form.save') %>

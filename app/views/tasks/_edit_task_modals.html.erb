@@ -1,0 +1,9 @@
+<% tasks.each do |task| %>
+  <%= render 'task_form', task: task,
+             new_record: false,
+             modal_id: "editTaskModal#{task.id}",
+             modal_label_id: "editTaskModalLabel#{task.id}",
+             title: t('edit_task.edit'),
+             form_id: "editTaskForm#{task.id}",
+             submit_text: t('form.save') %>
+<% end %>

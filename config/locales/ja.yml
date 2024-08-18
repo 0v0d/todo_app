@@ -1,0 +1,66 @@
+ja:
+  edit_task:
+    edit: "タスクを編集"
+    back: "戻る"
+  index:
+    title: "TODOリスト"
+    add_task: "タスクを追加"
+    no_tasks: "タスクが見つかりません。新しいタスクを作成して始めましょう!"
+    none: "なし"
+    columns:
+      title: "タイトル"
+      description: "説明"
+      status: "ステータス"
+      actions: "アクション"
+      due: "期日"
+    created: "作成"
+    ago: "前"
+    due: "期日"
+    no_due_date: "期限なし"
+    statuses:
+      completed: "完了"
+      pending: "保留中"
+    actions:
+      show: "表示"
+      add_task: "タスクを追加"
+      edit: "編集"
+      delete: "削除"
+      cancel: "キャンセル"
+      confirm_delete: "本当に削除しますか?"
+      no_items_message: "削除するタスクを選択してください"
+  form:
+    title: "タイトル"
+    description: "説明"
+    status: "ステータス"
+    statuses:
+      completed: "完了"
+      pending: "保留中"
+    save: "保存"
+    add: "追加"
+    back: "戻る"
+    due_date: "期日"
+    title_required: "タイトルは必須です"
+    year: "年"
+    month: "月"
+    day: "日"
+    time: "時間"
+    due_time: "期限"
+    due_date_required: "すべての日付フィールドを入力してください"
+    due_time_required: "日付が設定されている場合、時間も入力してください"
+    past_date_warning: "警告：選択された日時は過去の日時です"
+  show:
+    description: "説明"
+    status: "ステータス"
+    edit: "編集"
+    back: "戻る"
+    statuses:
+      completed: "完了"
+      pending: "保留中"
+    none: "なし"
+    delete: "削除"
+    due_date: "期日"
+  tasks:
+    delete_selected:
+      error: "エラーが発生しました"
+      no_tasks_selected: "タスクが選択されていません"
+      success: "正常に削除しました"
