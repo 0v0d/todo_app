@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [ :show, :edit, :update, :sort ]
+  before_action :set_task, only: [ :show, :edit, :update, :sort, :destroy ]
 
   def index
     @tasks = Task.order(:position)
@@ -28,6 +28,11 @@ class TasksController < ApplicationController
   def sort
     @task.insert_at(params[:position].to_i)
     head :ok
+  end
+
+  def destroy
+    @task.destroy
+    redirect_to tasks_path
   end
 
   def delete_selected
