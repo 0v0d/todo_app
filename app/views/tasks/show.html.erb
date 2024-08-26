@@ -19,11 +19,15 @@
                 <%= @task.completed ? t('show.statuses.completed') : t('show.statuses.pending') %>
               </span>
             </div>
-            <div class="col-12">
-              <h5 class="text-muted mb-2"><%= t('show.due_date') %></h5>
-              <p class="mb-0 fs-5">
-                <%= @task.due_date.present? ? @task.due_date.strftime('%Y-%m-%d %H:%M') : t('show.none') %>
-              </p>
+            <div class="mb-0 fs-5">
+              <% if @task.due_date %>
+                <small class="<%= due_date_class(@task) %>">
+                  <%= t('index.due') %>: <%= format_due_date(@task) %>
+                  (<%= due_date_distance(@task) %>)
+                </small>
+              <% else %>
+                <small class="text-muted"><%= t('index.no_due_date') %></small>
+              <% end %>
             </div>
           </div>
         </div>
