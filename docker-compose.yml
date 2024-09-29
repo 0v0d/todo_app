@@ -3,7 +3,7 @@ services:
     container_name: todo_app
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - ${RAILS_PORT}:3000

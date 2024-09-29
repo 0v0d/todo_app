@@ -13,7 +13,7 @@
 
 ## 前提条件
 - Docker と Docker Compose のインストール
-- Ruby 3.2.4
+- Ruby 3.2.5
 - MySQL 8.4
 - Rails 7.2.0
 

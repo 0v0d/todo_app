@@ -1,14 +1,17 @@
-# ベースイメージとして Ruby 3.2.4 を使用
-FROM ruby:3.2.4
+# ベースイメージとして Ruby 3.2.5 を使用
+FROM ruby:3.2.5
 
 # ロケールとタイムゾーンの設定
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 ENV RAILS_ENV=development
 
-# 必要なパッケージのインストール
+# 必要なパッケージのインストールとNode.jsのセットアップ
 RUN apt-get update -qq && \
-    apt-get install -y build-essential libpq-dev && \
+    apt-get install -y build-essential libpq-dev curl && \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g yarn && \
     rm -rf /var/lib/apt/lists/*
 
 # 作業ディレクトリを /app に設定
