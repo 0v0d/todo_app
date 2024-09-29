@@ -19,7 +19,7 @@ ja:
     no_due_date: "期限なし"
     statuses:
       completed: "完了"
-      pending: "保留中"
+      pending: "進行中"
     actions:
       show: "表示"
       add_task: "タスクを追加"
@@ -34,7 +34,7 @@ ja:
     status: "ステータス"
     statuses:
       completed: "完了"
-      pending: "保留中"
+      pending: "進行中"
     save: "保存"
     add: "追加"
     back: "戻る"
@@ -55,7 +55,7 @@ ja:
     back: "戻る"
     statuses:
       completed: "完了"
-      pending: "保留中"
+      pending: "進行中"
     none: "なし"
     delete: "削除"
     due_date: "期日"
