@@ -15,7 +15,7 @@
 /db/*.sqlite3
 /db/*.sqlite3-journal
 /db/*.sqlite3-[0-9]*
-/env
+/.env
 /env*.local
 /log/*
 /log/*.log
